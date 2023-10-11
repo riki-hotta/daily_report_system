@@ -7,11 +7,13 @@ import java.util.List;
 import javax.servlet.ServletException;
 
 import actions.views.EmployeeView;
+import actions.views.GoodView;
 import actions.views.ReportView;
 import constants.AttributeConst;
 import constants.ForwardConst;
 import constants.JpaConst;
 import constants.MessageConst;
+import services.GoodService;
 import services.ReportService;
 
 /**
@@ -21,6 +23,7 @@ import services.ReportService;
 public class ReportAction extends ActionBase {
 
     private ReportService service;
+    private GoodService goodservice;
 
     /**
      * メソッドを実行する
@@ -29,9 +32,11 @@ public class ReportAction extends ActionBase {
     public void process() throws ServletException, IOException {
 
         service = new ReportService();
+        goodservice = new GoodService();
 
         //メソッドを実行
         invoke();
+        goodservice.close();
         service.close();
     }
 
@@ -271,6 +276,21 @@ public class ReportAction extends ActionBase {
             redirect(ForwardConst.ACT_REP, ForwardConst.CMD_INDEX);
 
         }
+
+        // いいねした従業員テーブルに登録する
+        //セッションからログイン中の従業員情報を取得
+        EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);
+
+        //パラメータの値をもとにいいねした従業員情報のインスタンスを作成する
+        GoodView gv = new GoodView(
+                null,
+                ev, //ログインしている従業員を、いいねした従業員として登録する
+                rv, // 表示している日報を登録
+                null,
+                null);
+
+        //いいねした従業員情報登録
+        List<String> gooderrors = goodservice.create(gv);
     }
 
 }

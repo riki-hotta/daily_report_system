@@ -41,14 +41,25 @@ public interface JpaConst {
     String REP_COL_UPDATED_AT = "updated_at"; //更新日時
     String REP_COL_REP_GOOD = "reports_good"; //いいね数
 
+    // いいねした従業員テーブル
+    String TABLE_GOOD = "goodemployees"; //テーブル名
+    // いいねした従業員テーブルカラム
+    String GOOD_COL_ID = "id"; // id
+    String GOOD_COL_EMP = "good_emp_id"; //日報にいいねした従業員の従業員テーブルでのid
+    String GOOD_COL_REP = "good_rep_id"; //いいねされた日報の日報テーブルでのid
+    String GOOD_COL_CREATED_AT = "created_at"; //登録日時(いいねした日時)
+    String GOOD_COL_UPDATED_AT = "updated_at"; //更新日時
+
     //Entity名
     String ENTITY_EMP = "employee"; //従業員
     String ENTITY_REP = "report"; //日報
+    String ENTITY_GOOD = "good"; //いいねした従業員
 
     //JPQL内パラメータ
     String JPQL_PARM_CODE = "code"; //社員番号
     String JPQL_PARM_PASSWORD = "password"; //パスワード
     String JPQL_PARM_EMPLOYEE = "employee"; //従業員
+    String JPQL_PARM_REPORT = "report"; //日報
 
     //NamedQueryの nameとquery
     //全ての従業員をidの降順に取得する
@@ -75,5 +86,12 @@ public interface JpaConst {
     //指定した従業員が作成した日報の件数を取得する
     String Q_REP_COUNT_ALL_MINE = ENTITY_REP + ".countAllMine";
     String Q_REP_COUNT_ALL_MINE_DEF = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :" + JPQL_PARM_EMPLOYEE;
+
+    //指定した日報にいいねした従業員を全件idの降順に取得する
+    String Q_GOOD_GET_ALL_MINE = ENTITY_GOOD + ".getAllMine";
+    String Q_GOOD_GET_ALL_MINE_DEF = "SELECT g FROM Good AS g WHERE g.report = :" + JPQL_PARM_REPORT + " ORDER BY g.id DESC";
+    //指定した日報にいいねした従業員の件数を取得する
+    String Q_GOOD_COUNT_ALL_MINE = ENTITY_GOOD + ".countAllMine";
+    String Q_GOOD_COUNT_ALL_MINE_DEF = "SELECT COUNT(g) FROM Good AS g WHERE g.report = :" + JPQL_PARM_REPORT;
 
 }
