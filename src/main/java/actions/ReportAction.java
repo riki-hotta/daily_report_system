@@ -257,6 +257,21 @@ public class ReportAction extends ActionBase {
         //日報データを更新する
         List<String> errors = service.update(rv);
 
+        // いいねした従業員テーブルに登録する
+        //セッションからログイン中の従業員情報を取得
+        EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);
+
+        //パラメータの値をもとにいいねした従業員情報のインスタンスを作成する
+        GoodView gv = new GoodView(
+                null,
+                ev, //ログインしている従業員を、いいねした従業員として登録する
+                rv, // 表示している日報を登録
+                null,
+                null);
+
+        //いいねした従業員情報登録
+        List<String> gooderrors = goodservice.create(gv);
+
         if (errors.size() > 0) {
             //更新中にエラーが発生した場合
 
@@ -274,23 +289,7 @@ public class ReportAction extends ActionBase {
 
             //一覧画面にリダイレクト
             redirect(ForwardConst.ACT_REP, ForwardConst.CMD_INDEX);
-
         }
-
-        // いいねした従業員テーブルに登録する
-        //セッションからログイン中の従業員情報を取得
-        EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);
-
-        //パラメータの値をもとにいいねした従業員情報のインスタンスを作成する
-        GoodView gv = new GoodView(
-                null,
-                ev, //ログインしている従業員を、いいねした従業員として登録する
-                rv, // 表示している日報を登録
-                null,
-                null);
-
-        //いいねした従業員情報登録
-        List<String> gooderrors = goodservice.create(gv);
     }
 
 }

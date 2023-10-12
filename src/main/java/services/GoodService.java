@@ -47,13 +47,13 @@ public class GoodService extends ServiceBase {
      * @return 空のエラーのリスト
      */
     public List<String> create(GoodView gv) {
-        List<String> errors = null;
+        List<String> gooderrors = null;
         LocalDateTime ldt = LocalDateTime.now();
         gv.setCreatedAt(ldt);
         gv.setUpdatedAt(ldt);
         createInternal(gv);
 
-        return errors;
+        return gooderrors;
     }
 
     /**
