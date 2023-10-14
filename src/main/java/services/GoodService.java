@@ -3,6 +3,8 @@ package services;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import actions.views.EmployeeConverter;
+import actions.views.EmployeeView;
 import actions.views.GoodConverter;
 import actions.views.GoodView;
 import actions.views.ReportConverter;
@@ -39,6 +41,19 @@ public class GoodService extends ServiceBase {
                 .setParameter(JpaConst.JPQL_PARM_REPORT, ReportConverter.toModel(report))
                 .getSingleResult();
         return count;
+    }
+
+    /**
+     * 指定した日報のidとログインしている従業員のidの両方に一致するいいねした従業員の件数を取得し、返却する
+     * @param report 日報
+     * @return 従業員の件数
+     */
+    public long countRepAndEmp(ReportView report, EmployeeView employee) {
+        long countrepandemp = (long) em.createNamedQuery(JpaConst.Q_GOOD_COUNT_REP_AND_EMP, Long.class)
+                .setParameter(JpaConst.JPQL_PARM_REPORT, ReportConverter.toModel(report))
+                .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, EmployeeConverter.toModel(employee))
+                .getSingleResult();
+        return countrepandemp;
     }
 
     /**

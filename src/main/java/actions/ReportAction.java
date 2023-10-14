@@ -157,6 +157,12 @@ public class ReportAction extends ActionBase {
         //idを条件に日報データを取得する
         ReportView rv = service.findOne(toNumber(getRequestParam(AttributeConst.REP_ID)));
 
+        //セッションからログイン中の従業員情報を取得
+        EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);
+
+        //指定した日報のidとログインしている従業員のidの両方に一致するいいねした従業員の件数を取得する
+        long countrepandemp = goodservice.countRepAndEmp(rv, ev);
+
         if (rv == null) {
             //該当の日報データが存在しない場合はエラー画面を表示
             forward(ForwardConst.FW_ERR_UNKNOWN);
@@ -164,6 +170,7 @@ public class ReportAction extends ActionBase {
         } else {
 
             putRequestScope(AttributeConst.REPORT, rv); //取得した日報データ
+            putRequestScope(AttributeConst.GOOD_REP_EMP_COUNT, countrepandemp); //取得した日報にいいねした従業員データ
 
             //詳細画面を表示
             forward(ForwardConst.FW_REP_SHOW);
@@ -290,6 +297,32 @@ public class ReportAction extends ActionBase {
             //一覧画面にリダイレクト
             redirect(ForwardConst.ACT_REP, ForwardConst.CMD_INDEX);
         }
+    }
+
+    /**
+     * いいねした人一覧ページを表示する
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void goodindex() throws ServletException, IOException {
+        //idを条件に日報データを取得する
+        ReportView idRv = service.findOne(toNumber(getRequestParam(AttributeConst.REP_ID)));
+
+        //指定した日報にいいねした従業員を、指定されたページ数の一覧画面に表示する分取得
+        int page = getPage();
+        List<GoodView> goods = goodservice.getMinePerPage(idRv, page);
+
+        //指定した日報にいいねした従業員の件数を取得
+        long idRepCount = goodservice.countAllMine(idRv);
+
+        putRequestScope(AttributeConst.REPORT, idRv); //取得した日報データ
+        putRequestScope(AttributeConst.GOODS, goods); //取得した、日報にいいねした従業員データ
+        putRequestScope(AttributeConst.GOOD_COUNT, idRepCount); //全ての、日報にいいねした従業員データの件数
+        putRequestScope(AttributeConst.PAGE, page); //ページ数
+        putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE); //1ページに表示するレコードの数
+
+        //いいねした人一覧ページを表示
+        forward(ForwardConst.FW_REP_GOODS);
     }
 
 }
