@@ -277,7 +277,7 @@ public class ReportAction extends ActionBase {
                 null);
 
         //いいねした従業員情報登録
-        List<String> gooderrors = goodservice.create(gv);
+        goodservice.create(gv);
 
         if (errors.size() > 0) {
             //更新中にエラーが発生した場合

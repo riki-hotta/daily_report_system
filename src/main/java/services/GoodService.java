@@ -61,14 +61,11 @@ public class GoodService extends ServiceBase {
      * @param gv いいねした従業員の登録内容
      * @return 空のエラーのリスト
      */
-    public List<String> create(GoodView gv) {
-        List<String> gooderrors = null;
+    public void create(GoodView gv) {
         LocalDateTime ldt = LocalDateTime.now();
         gv.setCreatedAt(ldt);
         gv.setUpdatedAt(ldt);
         createInternal(gv);
-
-        return gooderrors;
     }
 
     /**
