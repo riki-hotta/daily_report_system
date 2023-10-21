@@ -50,16 +50,28 @@ public interface JpaConst {
     String GOOD_COL_CREATED_AT = "created_at"; //登録日時(いいねした日時)
     String GOOD_COL_UPDATED_AT = "updated_at"; //更新日時
 
+    // フォローした従業員テーブル
+    String TABLE_FOLLOW = "followemployees"; //テーブル名
+    // フォローした従業員テーブルカラム
+    String FOLLOW_COL_ID = "id"; // id
+    String FOLLOW_COL_EMP = "flw_emp_id"; //フォローした従業員の従業員テーブルでのid
+    String FOLLOWED_COL_EMP = "flwed_emp_id"; //フォローされた従業員の従業員テーブルでのid
+    String FOLLOW_COL_CREATED_AT = "created_at"; //登録日時
+    String FOLLOW_COL_UPDATED_AT = "updated_at"; //更新日時
+
     //Entity名
     String ENTITY_EMP = "employee"; //従業員
     String ENTITY_REP = "report"; //日報
     String ENTITY_GOOD = "good"; //いいねした従業員
+    String ENTITY_FOLLOW = "follow"; //フォローした従業員
+    String ENTITY_FOLLOWED = "followed"; //フォローされた従業員
 
     //JPQL内パラメータ
     String JPQL_PARM_CODE = "code"; //社員番号
     String JPQL_PARM_PASSWORD = "password"; //パスワード
     String JPQL_PARM_EMPLOYEE = "employee"; //従業員
     String JPQL_PARM_REPORT = "report"; //日報
+    String JPQL_PARM_FOLLOWED = "followed"; //フォローされた従業員
 
     //NamedQueryの nameとquery
     //全ての従業員をidの降順に取得する
@@ -96,5 +108,15 @@ public interface JpaConst {
     // 指定した日報のidとログインしている従業員のidの両方に一致するいいねした従業員の件数を取得する
     String Q_GOOD_COUNT_REP_AND_EMP = ENTITY_GOOD + ".countRepAndEmp";
     String Q_GOOD_COUNT_REP_AND_EMP_DEF = "SELECT COUNT(g) FROM Good AS g WHERE g.report = :" + JPQL_PARM_REPORT + " AND g.employee = :" + JPQL_PARM_EMPLOYEE;
+
+    // フォローされた従業員の日報を全件idの降順に取得する
+    String Q_FOLLOWED_GET_ALL_MINE = ENTITY_FOLLOWED + ".getAllMine";
+    String Q_FOLLOWED_GET_ALL_MINE_DEF = "SELECT r FROM Report AS r WHERE r.employee = :" + JPQL_PARM_FOLLOWED + " ORDER BY r.id DESC";
+    // フォローされた従業員の日報の件数を取得する
+    String Q_FOLLOWED_COUNT_ALL_MINE = ENTITY_FOLLOWED + ".countAllMine";
+    String Q_FOLLOWED_COUNT_ALL_MINE_DEF = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :" + JPQL_PARM_FOLLOWED;
+    // 指定した日報の作成者のidとログインしている従業員のidの両方に一致するフォローした、された従業員データの件数を取得する
+    String Q_FOLLOWED_COUNT_REP_AND_EMP = ENTITY_FOLLOWED + ".countRepAndEmp";
+    String Q_FOLLOWED_COUNT_REP_AND_EMP_DEF = "SELECT COUNT(f) FROM Follow AS f WHERE f.followed = :" + JPQL_PARM_REPORT + ".employee AND f.follow = :" + JPQL_PARM_EMPLOYEE;
 
 }
