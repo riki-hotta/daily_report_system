@@ -360,4 +360,34 @@ public class ReportAction extends ActionBase {
         redirect(ForwardConst.ACT_REP, ForwardConst.CMD_TIMELINE);
     }
 
+    /**
+     * タイムラインページを表示する
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void timeline() throws ServletException, IOException {
+        //セッションからログイン中の従業員情報を取得
+        EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);
+
+        // ログイン中の従業員がフォローした従業員のデータを得る
+        FollowView fv = followservice.findOne(ev);
+
+        // フォローされた従業員が作成した日報を、指定されたページ数の一覧画面に表示する分取得しReportViewのリストで返却する
+        int page = getPage();
+        List<ReportView> reports = followservice.getMinePerPage(fv, page);
+
+        //フォローされた従業員が作成した日報の件数を取得し、返却する
+        long count = followservice.countAllMine(fv);
+
+        putRequestScope(AttributeConst.FLWEMP, ev); //フォローした従業員情報
+        putRequestScope(AttributeConst.FLWEDEMP, fv); //フォローされた従業員情報
+        putRequestScope(AttributeConst.REPORTS, reports); //取得した日報データ
+        putRequestScope(AttributeConst.REP_COUNT, count); //全ての、日報にいいねした従業員データの件数
+        putRequestScope(AttributeConst.PAGE, page); //ページ数
+        putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE); //1ページに表示するレコードの数
+
+        //タイムラインページを表示
+        forward(ForwardConst.FW_REP_TIMELINE);
+    }
+
 }

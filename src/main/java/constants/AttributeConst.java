@@ -54,7 +54,11 @@ public enum AttributeConst {
     GOOD("good"),
     GOODS("goods"),
     GOOD_COUNT("goods_count"),
-    GOOD_REP_EMP_COUNT("goods_rep_emp_count");
+    GOOD_REP_EMP_COUNT("goods_rep_emp_count"),
+
+    // フォローした従業員管理
+    FLWEMP("flwemp"),
+    FLWEDEMP("flwedemp");
 
     private final String text;
     private final Integer i;
