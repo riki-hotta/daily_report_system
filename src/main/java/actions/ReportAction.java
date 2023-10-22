@@ -7,12 +7,14 @@ import java.util.List;
 import javax.servlet.ServletException;
 
 import actions.views.EmployeeView;
+import actions.views.FollowView;
 import actions.views.GoodView;
 import actions.views.ReportView;
 import constants.AttributeConst;
 import constants.ForwardConst;
 import constants.JpaConst;
 import constants.MessageConst;
+import services.FollowService;
 import services.GoodService;
 import services.ReportService;
 
@@ -24,6 +26,7 @@ public class ReportAction extends ActionBase {
 
     private ReportService service;
     private GoodService goodservice;
+    private FollowService followservice;
 
     /**
      * メソッドを実行する
@@ -33,9 +36,11 @@ public class ReportAction extends ActionBase {
 
         service = new ReportService();
         goodservice = new GoodService();
+        followservice = new FollowService();
 
         //メソッドを実行
         invoke();
+        followservice.close();
         goodservice.close();
         service.close();
     }
@@ -323,6 +328,36 @@ public class ReportAction extends ActionBase {
 
         //いいねした人一覧ページを表示
         forward(ForwardConst.FW_REP_GOODS);
+    }
+
+    /**
+     * 日報詳細ページの「この日報の作成者をフォローする」リンクを押下時に、フォロー情報をデータベースに登録する
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void follow() throws ServletException, IOException{
+        //idを条件に日報データを取得する
+        ReportView rv = service.findOne(toNumber(getRequestParam(AttributeConst.REP_ID)));
+
+        //セッションからログイン中の従業員情報を取得
+        EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);
+
+        // パラメータの値をもとにフォローした従業員情報のインスタンスを作成する
+        FollowView fv = new FollowView(
+                null,
+                ev, //ログインしている従業員を、フォローした従業員として登録する
+                rv.getEmployee(), // 日報を作成した従業員を、フォローされた従業員として登録する
+                null,
+                null);
+
+        //フォローした従業員情報登録
+        followservice.create(fv);
+
+        //セッションにフォローしました、のフラッシュメッセージを設定
+        putSessionScope(AttributeConst.FLUSH, MessageConst.I_FOLLOW.getMessage());
+
+        //タイムラインページにリダイレクト
+        redirect(ForwardConst.ACT_REP, ForwardConst.CMD_TIMELINE);
     }
 
 }

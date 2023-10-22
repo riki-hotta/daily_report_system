@@ -7,6 +7,7 @@
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
 <c:set var="commEdt" value="${ForwardConst.CMD_EDIT.getValue()}" />
 <c:set var="commGod" value="${ForwardConst.CMD_GOOD.getValue()}" />
+<c:set var="commFlw" value="${ForwardConst.CMD_FOLLOW.getValue()}" />
 
 <c:import url="/WEB-INF/views/layout/app.jsp">
     <c:param name="content">
@@ -56,6 +57,9 @@
             </c:otherwise>
         </c:choose>
 
+        <p>
+            <a href="<c:url value='?action=${actRep}&command=${commFlw}' />">この日報の作成者をフォローする</a>
+        </p>
         <p>
             <a href="<c:url value='?action=${actRep}&command=${commIdx}' />">一覧に戻る</a>
         </p>
