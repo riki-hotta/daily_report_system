@@ -57,6 +57,7 @@ public enum AttributeConst {
     GOOD_REP_EMP_COUNT("goods_rep_emp_count"),
 
     // フォローした従業員管理
+    FOLLOWS("follows"),
     FLWEMP("flwemp"),
     FLWEDEMP("flwedemp");
 

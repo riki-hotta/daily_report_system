@@ -3,6 +3,7 @@ package services;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import actions.views.EmployeeConverter;
 import actions.views.EmployeeView;
 import actions.views.FollowConverter;
 import actions.views.FollowView;
@@ -55,12 +56,15 @@ public class FollowService extends ServiceBase {
     }
 
     /**
-     * フォローした従業員を条件に取得したデータをFollowViewのインスタンスで返却する
+     * フォローした従業員を条件に取得した従業員データをFollowViewのリストで返却する
      * @param flwemp
-     * @return 取得データのインスタンス
+     * @return 取得データのリスト
      */
-    public FollowView findOne(EmployeeView flwemp) {
-        return FollowConverter.toView(findOneInternal(flwemp));
+    public List<FollowView> getFollowed(EmployeeView flwemp) {
+        List<Follow> follows = em.createNamedQuery(JpaConst.Q_FOLLOW_GET_FOLLOWED, Follow.class)
+                .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, EmployeeConverter.toModel(flwemp))
+                .getResultList();
+        return FollowConverter.toViewList(follows);
     }
 
     /**
@@ -73,12 +77,4 @@ public class FollowService extends ServiceBase {
         em.getTransaction().commit();
     }
 
-    /**
-     * フォローした従業員を条件にデータを1件取得する
-     * @param flwemp
-     * @return 取得データのインスタンス
-     */
-    private Follow findOneInternal(EmployeeView flwemp) {
-        return em.find(Follow.class, flwemp);
-    }
 }
