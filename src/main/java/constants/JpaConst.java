@@ -109,13 +109,10 @@ public interface JpaConst {
     String Q_GOOD_COUNT_REP_AND_EMP = ENTITY_GOOD + ".countRepAndEmp";
     String Q_GOOD_COUNT_REP_AND_EMP_DEF = "SELECT COUNT(g) FROM Good AS g WHERE g.report = :" + JPQL_PARM_REPORT + " AND g.employee = :" + JPQL_PARM_EMPLOYEE;
 
-    //フォローされた従業員が作成した日報を全件idの降順で取得する
-    String Q_FOLLOW_GET_ALL_MINE = ENTITY_FOLLOWED + ".getAllMine";
-    String Q_FOLLOW_GET_ALL_MINE_DEF = "SELECT r FROM Report AS r WHERE r.employee = :" + JPQL_PARM_FOLLOWED + " ORDER BY r.id DESC";
-    //フォローされた従業員が作成した日報の件数を取得する
-    String Q_FOLLOW_COUNT_ALL_MINE = ENTITY_FOLLOWED + ".countAllMine";
-    String Q_FOLLOW_COUNT_ALL_MINE_DEF = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :" + JPQL_PARM_FOLLOWED;
-    // ログイン中の従業員がフォローした従業員のデータを得る
-    String Q_FOLLOW_GET_FOLLOWED = ENTITY_FOLLOW + ".getFollowed";
-    String Q_FOLLOW_GET_FOLLOWED_DEF = "SELECT f FROM Follow AS f WHERE f.flwemp = :" + JPQL_PARM_EMPLOYEE + " ORDER BY f.id DESC";
+    //ログイン中の従業員がフォローした従業員が作成した日報を全件idの降順で取得する
+    String Q_FOLLOW_GET_ALL = ENTITY_REP + ".getFollowAll";
+    String Q_FOLLOW_GET_ALL_DEF = "SELECT r FROM Report AS r, Follow AS f WHERE r.employee = f.flwedemp AND f.flwemp = :" + JPQL_PARM_EMPLOYEE + " ORDER BY r.id DESC";
+    //ログイン中の従業員がフォローした従業員が作成した日報の件数を取得する
+    String Q_FOLLOW_COUNT_ALL = ENTITY_REP + ".countFollowAll";
+    String Q_FOLLOW_COUNT_ALL_DEF = "SELECT COUNT(r) FROM Report AS r, Follow AS f WHERE r.employee = f.flwedemp AND f.flwemp = :" + JPQL_PARM_EMPLOYEE;
 }

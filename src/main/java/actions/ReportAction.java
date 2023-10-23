@@ -369,21 +369,13 @@ public class ReportAction extends ActionBase {
         //セッションからログイン中の従業員情報を取得
         EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);
 
-        // ログイン中の従業員がフォローした従業員リストのデータを得る
-        List<FollowView> follows = followservice.getFollowed(ev);
+        // ログイン中の従業員がフォローした従業員が作成した日報を、指定されたページ数の一覧画面に表示する分取得し返却
+        int page = getPage();
+        List<ReportView> reports = followservice.getFollowAll(ev, page);
 
-        // フォローした従業員のリストから、フォローされた従業員情報をそれぞれ抜き出す
-        for (FollowView flw : follows) {
-            // フォローされた従業員が作成した日報を、指定されたページ数の一覧画面に表示する分取得しReportViewのリストで返却する
-            int page = getPage();
-            List<ReportView> reports = followservice.getMinePerPage(flw.getFlwedemp(), page);
+        // ログイン中の従業員がフォローした従業員が作成した日報の件数を取得し、返却する
+        long count = followservice.countFollowAll(ev);
 
-            //フォローされた従業員が作成した日報の件数を取得し、返却する
-            long count = followservice.countAllMine(flw.getFlwedemp());
-
-            putRequestScope(AttributeConst.FLWEMP, ev); //フォローした従業員情報
-            putRequestScope(AttributeConst.FOLLOWS, follows); //フォローした従業員リスト
-            putRequestScope(AttributeConst.FLWEDEMP, flw.getFlwedemp()); //フォローされた従業員情報
             putRequestScope(AttributeConst.REPORTS, reports); //取得した日報データ
             putRequestScope(AttributeConst.REP_COUNT, count); //フォローされた従業員が作成した日報の件数
             putRequestScope(AttributeConst.PAGE, page); //ページ数
@@ -398,8 +390,6 @@ public class ReportAction extends ActionBase {
 
             //タイムラインページを表示
             forward(ForwardConst.FW_REP_TIMELINE);
-        }
-
     }
 
 }

@@ -10,7 +10,6 @@ import actions.views.FollowView;
 import actions.views.ReportConverter;
 import actions.views.ReportView;
 import constants.JpaConst;
-import models.Follow;
 import models.Report;
 
 /**
@@ -18,14 +17,14 @@ import models.Report;
  */
 public class FollowService extends ServiceBase {
     /**
-     * フォローされた従業員が作成した日報を、指定されたページ数の一覧画面に表示する分取得しReportViewのリストで返却する
-     * @param flwedemp フォローされた従業員
+     * ログイン中の従業員がフォローした従業員が作成した日報を、指定されたページ数の一覧画面に表示する分取得しReportViewのリストで返却する
+     * @param ev フォローされた従業員
      * @param page ページ数
      * @return 一覧画面に表示するデータのリスト
      */
-    public List<ReportView> getMinePerPage(EmployeeView flwedemp, int page){
-        List<Report> reports = em.createNamedQuery(JpaConst.Q_FOLLOW_GET_ALL_MINE, Report.class)
-                .setParameter(JpaConst.JPQL_PARM_FOLLOWED, EmployeeConverter.toModel(flwedemp))
+    public List<ReportView> getFollowAll(EmployeeView ev, int page){
+        List<Report> reports = em.createNamedQuery(JpaConst.Q_FOLLOW_GET_ALL, Report.class)
+                .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, EmployeeConverter.toModel(ev))
                 .setFirstResult(JpaConst.ROW_PER_PAGE * (page - 1))
                 .setMaxResults(JpaConst.ROW_PER_PAGE)
                 .getResultList();
@@ -33,13 +32,13 @@ public class FollowService extends ServiceBase {
     }
 
     /**
-     * フォローされた従業員が作成した日報の件数を取得し、返却する
-     * @param flwedemp
+     * ログイン中の従業員がフォローした従業員が作成した日報の件数を取得し、返却する
+     * @param ev
      * @return 日報の件数
      */
-    public long countAllMine(EmployeeView flwedemp) {
-        long count = (long) em.createNamedQuery(JpaConst.Q_FOLLOW_COUNT_ALL_MINE, Long.class)
-                .setParameter(JpaConst.JPQL_PARM_FOLLOWED, EmployeeConverter.toModel(flwedemp))
+    public long countFollowAll(EmployeeView ev) {
+        long count = (long) em.createNamedQuery(JpaConst.Q_FOLLOW_COUNT_ALL, Long.class)
+                .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, EmployeeConverter.toModel(ev))
                 .getSingleResult();
         return count;
     }
@@ -53,18 +52,6 @@ public class FollowService extends ServiceBase {
         fv.setCreatedAt(ldt);
         fv.setUpdatedAt(ldt);
         createInternal(fv);
-    }
-
-    /**
-     * フォローした従業員を条件に取得した従業員データをFollowViewのリストで返却する
-     * @param flwemp
-     * @return 取得データのリスト
-     */
-    public List<FollowView> getFollowed(EmployeeView ev) {
-        List<Follow> follows = em.createNamedQuery(JpaConst.Q_FOLLOW_GET_FOLLOWED, Follow.class)
-                .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, EmployeeConverter.toModel(ev))
-                .getResultList();
-        return FollowConverter.toViewList(follows);
     }
 
     /**

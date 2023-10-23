@@ -26,14 +26,11 @@ import lombok.Setter;
 @Table(name = JpaConst.TABLE_FOLLOW)
 @NamedQueries({
     @NamedQuery(
-            name = JpaConst.Q_FOLLOW_GET_ALL_MINE,
-            query = JpaConst.Q_FOLLOW_GET_ALL_MINE_DEF),
+            name = JpaConst.Q_FOLLOW_GET_ALL,
+            query = JpaConst.Q_FOLLOW_GET_ALL_DEF),
     @NamedQuery(
-            name = JpaConst.Q_FOLLOW_COUNT_ALL_MINE,
-            query = JpaConst.Q_FOLLOW_COUNT_ALL_MINE_DEF),
-    @NamedQuery(
-            name = JpaConst.Q_FOLLOW_GET_FOLLOWED,
-            query = JpaConst.Q_FOLLOW_GET_FOLLOWED_DEF)
+            name = JpaConst.Q_FOLLOW_COUNT_ALL,
+            query = JpaConst.Q_FOLLOW_COUNT_ALL_DEF)
 })
 
 @Getter //全てのクラスフィールドについてgetterを自動生成する(Lombok)
