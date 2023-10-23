@@ -59,7 +59,8 @@ public enum AttributeConst {
     // フォローした従業員管理
     FOLLOWS("follows"),
     FLWEMP("flwemp"),
-    FLWEDEMP("flwedemp");
+    FLWEDEMP("flwedemp"),
+    FOLLOW_FOLLOWED_COUNT("follow_followed_count");
 
     private final String text;
     private final Integer i;

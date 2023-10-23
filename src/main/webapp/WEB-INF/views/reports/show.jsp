@@ -58,7 +58,7 @@
         </c:choose>
 
         <p>
-            <c:if test="${sessionScope.login_employee.id != report.employee.id}">
+            <c:if test="${sessionScope.login_employee.id != report.employee.id && follow_followed_count == 0}">
                 <a href="<c:url value='?action=${actRep}&command=${commFlw}&id=${report.id}' />">この日報の作成者をフォローする</a>
             </c:if>
         </p>

@@ -18,7 +18,7 @@ import models.Report;
 public class FollowService extends ServiceBase {
     /**
      * ログイン中の従業員がフォローした従業員が作成した日報を、指定されたページ数の一覧画面に表示する分取得しReportViewのリストで返却する
-     * @param ev フォローされた従業員
+     * @param ev フォローした従業員
      * @param page ページ数
      * @return 一覧画面に表示するデータのリスト
      */
@@ -33,7 +33,7 @@ public class FollowService extends ServiceBase {
 
     /**
      * ログイン中の従業員がフォローした従業員が作成した日報の件数を取得し、返却する
-     * @param ev
+     * @param ev フォローした従業員
      * @return 日報の件数
      */
     public long countFollowAll(EmployeeView ev) {
@@ -41,6 +41,18 @@ public class FollowService extends ServiceBase {
                 .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, EmployeeConverter.toModel(ev))
                 .getSingleResult();
         return count;
+    }
+
+    /**
+     * ログイン中の従業員とフォローした従業員、日報の作成者とフォローされた従業員が一致するフォロー従業員情報の件数を取得し、返却する
+     * @param ev フォローした従業員
+     * @return フォロー従業員情報の件数
+     */
+    public long countFolFoled(EmployeeView ev) {
+        long countflfled = (long) em.createNamedQuery(JpaConst.Q_FOLLOW_COUNT_FOLLOWED, Long.class)
+                .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, EmployeeConverter.toModel(ev))
+                .getSingleResult();
+        return countflfled;
     }
 
     /**

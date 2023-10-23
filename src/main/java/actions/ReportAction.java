@@ -168,6 +168,9 @@ public class ReportAction extends ActionBase {
         //指定した日報のidとログインしている従業員のidの両方に一致するいいねした従業員の件数を取得する
         long countrepandemp = goodservice.countRepAndEmp(rv, ev);
 
+        // ログイン中の従業員とフォローした従業員、日報の作成者とフォローされた従業員が一致するフォロー従業員情報の件数を取得する
+        long countflfled = followservice.countFolFoled(ev);
+
         if (rv == null) {
             //該当の日報データが存在しない場合はエラー画面を表示
             forward(ForwardConst.FW_ERR_UNKNOWN);
@@ -176,6 +179,7 @@ public class ReportAction extends ActionBase {
 
             putRequestScope(AttributeConst.REPORT, rv); //取得した日報データ
             putRequestScope(AttributeConst.GOOD_REP_EMP_COUNT, countrepandemp); //取得した日報にいいねした従業員データ
+            putRequestScope(AttributeConst.FOLLOW_FOLLOWED_COUNT, countflfled); //取得した日フォロー従業員情報の件数
 
             //詳細画面を表示
             forward(ForwardConst.FW_REP_SHOW);

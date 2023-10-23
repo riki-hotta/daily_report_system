@@ -30,7 +30,10 @@ import lombok.Setter;
             query = JpaConst.Q_FOLLOW_GET_ALL_DEF),
     @NamedQuery(
             name = JpaConst.Q_FOLLOW_COUNT_ALL,
-            query = JpaConst.Q_FOLLOW_COUNT_ALL_DEF)
+            query = JpaConst.Q_FOLLOW_COUNT_ALL_DEF),
+    @NamedQuery(
+            name = JpaConst.Q_FOLLOW_COUNT_FOLLOWED,
+            query = JpaConst.Q_FOLLOW_COUNT_FOLLOWED_DEF)
 })
 
 @Getter //全てのクラスフィールドについてgetterを自動生成する(Lombok)
