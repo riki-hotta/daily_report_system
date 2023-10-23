@@ -58,7 +58,9 @@
         </c:choose>
 
         <p>
-            <a href="<c:url value='?action=${actRep}&command=${commFlw}' />">この日報の作成者をフォローする</a>
+            <c:if test="${sessionScope.login_employee.id != report.employee.id}">
+                <a href="<c:url value='?action=${actRep}&command=${commFlw}&id=${report.id}' />">この日報の作成者をフォローする</a>
+            </c:if>
         </p>
         <p>
             <a href="<c:url value='?action=${actRep}&command=${commIdx}' />">一覧に戻る</a>

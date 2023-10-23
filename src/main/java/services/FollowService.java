@@ -23,9 +23,9 @@ public class FollowService extends ServiceBase {
      * @param page ページ数
      * @return 一覧画面に表示するデータのリスト
      */
-    public List<ReportView> getMinePerPage(FollowView flwedemp, int page){
+    public List<ReportView> getMinePerPage(EmployeeView flwedemp, int page){
         List<Report> reports = em.createNamedQuery(JpaConst.Q_FOLLOW_GET_ALL_MINE, Report.class)
-                .setParameter(JpaConst.JPQL_PARM_FOLLOWED, FollowConverter.toModel(flwedemp))
+                .setParameter(JpaConst.JPQL_PARM_FOLLOWED, EmployeeConverter.toModel(flwedemp))
                 .setFirstResult(JpaConst.ROW_PER_PAGE * (page - 1))
                 .setMaxResults(JpaConst.ROW_PER_PAGE)
                 .getResultList();
@@ -37,9 +37,9 @@ public class FollowService extends ServiceBase {
      * @param flwedemp
      * @return 日報の件数
      */
-    public long countAllMine(FollowView flwedemp) {
+    public long countAllMine(EmployeeView flwedemp) {
         long count = (long) em.createNamedQuery(JpaConst.Q_FOLLOW_COUNT_ALL_MINE, Long.class)
-                .setParameter(JpaConst.JPQL_PARM_FOLLOWED, FollowConverter.toModel(flwedemp))
+                .setParameter(JpaConst.JPQL_PARM_FOLLOWED, EmployeeConverter.toModel(flwedemp))
                 .getSingleResult();
         return count;
     }
@@ -60,9 +60,9 @@ public class FollowService extends ServiceBase {
      * @param flwemp
      * @return 取得データのリスト
      */
-    public List<FollowView> getFollowed(EmployeeView flwemp) {
+    public List<FollowView> getFollowed(EmployeeView ev) {
         List<Follow> follows = em.createNamedQuery(JpaConst.Q_FOLLOW_GET_FOLLOWED, Follow.class)
-                .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, EmployeeConverter.toModel(flwemp))
+                .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, EmployeeConverter.toModel(ev))
                 .getResultList();
         return FollowConverter.toViewList(follows);
     }

@@ -373,25 +373,33 @@ public class ReportAction extends ActionBase {
         List<FollowView> follows = followservice.getFollowed(ev);
 
         // フォローした従業員のリストから、フォローされた従業員情報をそれぞれ抜き出す
-        for (FollowView flwedemp : follows) {
+        for (FollowView flw : follows) {
             // フォローされた従業員が作成した日報を、指定されたページ数の一覧画面に表示する分取得しReportViewのリストで返却する
             int page = getPage();
-            List<ReportView> reports = followservice.getMinePerPage(flwedemp, page);
+            List<ReportView> reports = followservice.getMinePerPage(flw.getFlwedemp(), page);
 
             //フォローされた従業員が作成した日報の件数を取得し、返却する
-            long count = followservice.countAllMine(flwedemp);
+            long count = followservice.countAllMine(flw.getFlwedemp());
 
             putRequestScope(AttributeConst.FLWEMP, ev); //フォローした従業員情報
             putRequestScope(AttributeConst.FOLLOWS, follows); //フォローした従業員リスト
-            putRequestScope(AttributeConst.FLWEDEMP, flwedemp); //フォローされた従業員情報
+            putRequestScope(AttributeConst.FLWEDEMP, flw.getFlwedemp()); //フォローされた従業員情報
             putRequestScope(AttributeConst.REPORTS, reports); //取得した日報データ
             putRequestScope(AttributeConst.REP_COUNT, count); //フォローされた従業員が作成した日報の件数
             putRequestScope(AttributeConst.PAGE, page); //ページ数
             putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE); //1ページに表示するレコードの数
+
+            //セッションにフラッシュメッセージが設定されている場合はリクエストスコープに移し替え、セッションからは削除する
+            String flush = getSessionScope(AttributeConst.FLUSH);
+            if (flush != null) {
+                putRequestScope(AttributeConst.FLUSH, flush);
+                removeSessionScope(AttributeConst.FLUSH);
+            }
+
+            //タイムラインページを表示
+            forward(ForwardConst.FW_REP_TIMELINE);
         }
 
-        //タイムラインページを表示
-        forward(ForwardConst.FW_REP_TIMELINE);
     }
 
 }
