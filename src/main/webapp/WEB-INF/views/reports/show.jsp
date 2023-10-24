@@ -54,14 +54,13 @@
                 <c:if test="${goods_rep_emp_count == 0}">
                     <a href="<c:url value='?action=${actRep}&command=${commGod}&id=${report.id}' />">この日報にいいねする</a>
                 </c:if>
+                <p>
+                <c:if test="${follow_followed_count == 0}">
+                    <a href="<c:url value='?action=${actRep}&command=${commFlw}&id=${report.id}' />">この日報の作成者をフォローする</a>
+                </c:if>
+                </p>
             </c:otherwise>
         </c:choose>
-
-        <p>
-            <c:if test="${sessionScope.login_employee.id != report.employee.id && follow_followed_count == 0}">
-                <a href="<c:url value='?action=${actRep}&command=${commFlw}&id=${report.id}' />">この日報の作成者をフォローする</a>
-            </c:if>
-        </p>
         <p>
             <a href="<c:url value='?action=${actRep}&command=${commIdx}' />">一覧に戻る</a>
         </p>

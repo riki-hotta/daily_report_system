@@ -48,9 +48,10 @@ public class FollowService extends ServiceBase {
      * @param ev フォローした従業員
      * @return フォロー従業員情報の件数
      */
-    public long countFolFoled(EmployeeView ev) {
+    public long countFolFoled(EmployeeView ev, EmployeeView flwedemp) {
         long countflfled = (long) em.createNamedQuery(JpaConst.Q_FOLLOW_COUNT_FOLLOWED, Long.class)
                 .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, EmployeeConverter.toModel(ev))
+                .setParameter(JpaConst.JPQL_PARM_FOLLOWED, EmployeeConverter.toModel(flwedemp))
                 .getSingleResult();
         return countflfled;
     }

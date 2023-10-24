@@ -169,7 +169,7 @@ public class ReportAction extends ActionBase {
         long countrepandemp = goodservice.countRepAndEmp(rv, ev);
 
         // ログイン中の従業員とフォローした従業員、日報の作成者とフォローされた従業員が一致するフォロー従業員情報の件数を取得する
-        long countflfled = followservice.countFolFoled(ev);
+        long countflfled = followservice.countFolFoled(ev, rv.getEmployee());
 
         if (rv == null) {
             //該当の日報データが存在しない場合はエラー画面を表示
