@@ -21,6 +21,7 @@ import constants.ForwardConst;
 /**
  * Servlet Filter implementation class LoginFilter
  */
+
 @WebFilter("/*")
 public class LoginFilter implements Filter {
 

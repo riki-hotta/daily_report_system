@@ -31,6 +31,13 @@
                         </c:choose></td>
                 </tr>
                 <tr>
+                    <th>役職</th>
+                    <td><c:choose>
+                            <c:when test="${employee.bossFlag == AttributeConst.BOSS_SECTION.getIntegerValue()}">課長</c:when>
+                            <c:otherwise>一般従業員</c:otherwise>
+                        </c:choose></td>
+                </tr>
+                <tr>
                     <th>登録日時</th>
                     <fmt:parseDate value="${employee.createdAt}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="createDay" type="date" />
                     <td><fmt:formatDate value="${createDay}" pattern="yyyy-MM-dd HH:mm:ss" /></td>

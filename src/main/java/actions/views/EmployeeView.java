@@ -57,4 +57,9 @@ public class EmployeeView {
      */
     private Integer deleteFlag;
 
+    /**
+     * 役職フラグ(0:一般従業員、1:課長)
+     */
+    private Integer bossFlag;
+
 }

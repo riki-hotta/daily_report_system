@@ -23,11 +23,14 @@ public interface JpaConst {
     String EMP_COL_CREATED_AT = "created_at"; //登録日時
     String EMP_COL_UPDATED_AT = "updated_at"; //更新日時
     String EMP_COL_DELETE_FLAG = "delete_flag"; //削除フラグ
+    String EMP_COL_BOSS_FLAG = "boss_flag"; //役職フラグ
 
     int ROLE_ADMIN = 1; //管理者権限ON(管理者)
     int ROLE_GENERAL = 0; //管理者権限OFF(一般)
     int EMP_DEL_TRUE = 1; //削除フラグON(削除済み)
     int EMP_DEL_FALSE = 0; //削除フラグOFF(現役)
+    int BOSS_SECTION = 1; //課長権限
+    int BOSS_GENERAL = 0; //一般従業員
 
     //日報テーブル
     String TABLE_REP = "reports"; //テーブル名
