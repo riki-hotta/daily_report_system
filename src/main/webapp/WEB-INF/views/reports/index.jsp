@@ -24,6 +24,7 @@
                     <th class="report_date">日付</th>
                     <th class="report_title">タイトル</th>
                     <th class="report_good">いいね数</th>
+                    <th class="report_aprv">承認</th>
                     <th class="report_action">操作</th>
                 </tr>
                 <c:forEach var="report" items="${reports}" varStatus="status">
@@ -39,6 +40,14 @@
                             </c:when>
                             <c:otherwise>
                                 <td class="report_good">${report.reportGood}</td>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${report.reportAprv == 0}">
+                                <td class="report_aprv">未承認</td>
+                            </c:when>
+                            <c:otherwise>
+                                <td class="report_aprv">承認済み</td>
                             </c:otherwise>
                         </c:choose>
                         <td class="report_action"><a href="<c:url value='?action=${actRep}&command=${commShow}&id=${report.id}' />">詳細を見る</a></td>
