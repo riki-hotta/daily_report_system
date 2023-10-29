@@ -30,6 +30,7 @@ public enum ForwardConst {
     CMD_GOOD_INDEX("goodindex"),
     CMD_FOLLOW("follow"),
     CMD_TIMELINE("timeline"),
+    CMD_APPROVE("aprv"),
 
     //jsp
     FW_ERR_UNKNOWN("error/unknown"),

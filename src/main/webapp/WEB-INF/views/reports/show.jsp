@@ -2,12 +2,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="constants.ForwardConst" %>
+<%@ page import="constants.AttributeConst" %>
 
 <c:set var="actRep" value="${ForwardConst.ACT_REP.getValue()}" />
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
 <c:set var="commEdt" value="${ForwardConst.CMD_EDIT.getValue()}" />
 <c:set var="commGod" value="${ForwardConst.CMD_GOOD.getValue()}" />
 <c:set var="commFlw" value="${ForwardConst.CMD_FOLLOW.getValue()}" />
+<c:set var="commAprv" value="${ForwardConst.CMD_APPROVE.getValue()}" />
 
 <c:import url="/WEB-INF/views/layout/app.jsp">
     <c:param name="content">
@@ -57,6 +59,11 @@
                 <p>
                 <c:if test="${follow_followed_count == 0}">
                     <a href="<c:url value='?action=${actRep}&command=${commFlw}&id=${report.id}' />">この日報の作成者をフォローする</a>
+                </c:if>
+                </p>
+                <p>
+                <c:if test="${report.reportAprv == 0 && sessionScope.login_employee.bossFlag == AttributeConst.BOSS_SECTION.getIntegerValue()}">
+                    <a href="<c:url value='?action=${actRep}&command=${commAprv}&id=${report.id}' />">この日報を承認する</a>
                 </c:if>
                 </p>
             </c:otherwise>

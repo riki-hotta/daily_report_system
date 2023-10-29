@@ -125,6 +125,7 @@ public class ReportAction extends ActionBase {
                     getRequestParam(AttributeConst.REP_CONTENT),
                     null,
                     null,
+                    0,
                     0);
 
             //日報情報登録
@@ -394,6 +395,41 @@ public class ReportAction extends ActionBase {
 
             //タイムラインページを表示
             forward(ForwardConst.FW_REP_TIMELINE);
+    }
+
+    /**
+     * 日報の承認を行う
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void aprv() throws ServletException, IOException{
+        //idを条件に日報データを取得する
+        ReportView rv = service.findOne(toNumber(getRequestParam(AttributeConst.REP_ID)));
+
+        // 承認フラグを0から1にする
+        rv.setReportAprv(1);
+
+        //日報データを更新する
+        List<String> errors = service.update(rv);
+
+        if (errors.size() > 0) {
+            //更新中にエラーが発生した場合
+
+            putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
+            putRequestScope(AttributeConst.REPORT, rv); //入力された日報情報
+            putRequestScope(AttributeConst.ERR, errors); //エラーのリスト
+
+            //詳細画面を再表示
+            forward(ForwardConst.FW_REP_SHOW);
+        } else {
+            //更新中にエラーがなかった場合
+
+            //セッションに承認完了のフラッシュメッセージを設定
+            putSessionScope(AttributeConst.FLUSH, MessageConst.I_APPROVED.getMessage());
+
+            //一覧画面にリダイレクト
+            redirect(ForwardConst.ACT_REP, ForwardConst.CMD_INDEX);
+        }
     }
 
 }
