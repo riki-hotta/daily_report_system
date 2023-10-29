@@ -43,6 +43,7 @@ public interface JpaConst {
     String REP_COL_CREATED_AT = "created_at"; //登録日時
     String REP_COL_UPDATED_AT = "updated_at"; //更新日時
     String REP_COL_REP_GOOD = "reports_good"; //いいね数
+    String REP_COL_REP_APRV = "report_aprv"; //承認フラグ(0:未承認、1:承認済み)
 
     // いいねした従業員テーブル
     String TABLE_GOOD = "goodemployees"; //テーブル名

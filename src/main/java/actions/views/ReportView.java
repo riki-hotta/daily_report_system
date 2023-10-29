@@ -57,4 +57,9 @@ public class ReportView {
      * いいね数
      */
     private Integer reportGood;
+
+    /**
+     * 承認フラグ(0:未承認、1:承認済み)
+     */
+    private Integer reportAprv;
 }

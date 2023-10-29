@@ -100,4 +100,9 @@ public class Report {
     @Column(name = JpaConst.REP_COL_REP_GOOD, nullable = false)
     private Integer reportGood;
 
+    /**
+     * 承認フラグ(0:未承認、1:承認済み)
+     */
+    @Column(name = JpaConst.REP_COL_REP_APRV, nullable = false)
+    private Integer reportAprv;
 }

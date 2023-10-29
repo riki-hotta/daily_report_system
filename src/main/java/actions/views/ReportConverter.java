@@ -25,7 +25,8 @@ public class ReportConverter {
                 rv.getContent(),
                 rv.getCreatedAt(),
                 rv.getUpdatedAt(),
-                rv.getReportGood());
+                rv.getReportGood(),
+                rv.getReportAprv());
     }
 
     /**
@@ -47,7 +48,8 @@ public class ReportConverter {
                 r.getContent(),
                 r.getCreatedAt(),
                 r.getUpdatedAt(),
-                r.getReportGood());
+                r.getReportGood(),
+                r.getReportAprv());
     }
 
     /**
@@ -79,6 +81,7 @@ public class ReportConverter {
         r.setCreatedAt(rv.getCreatedAt());
         r.setUpdatedAt(rv.getUpdatedAt());
         r.setReportGood(rv.getReportGood());
+        r.setReportAprv(rv.getReportAprv());
     }
 
 }
